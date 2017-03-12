@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS example_database

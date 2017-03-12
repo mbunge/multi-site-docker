@@ -2,17 +2,17 @@ version: "2.1"
 
 services:
   start_dependencies:
-      image: dadarek/wait-for-dependencies
-      depends_on:
-        - database
-        - php
-        - nginx
-      command: database:3306 php:9000 nginx:80
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - database
+      - php
+      - nginx
+    command: database:3306 php:9000 nginx:80
   nginx:
     image: prooph/nginx:www
     ports:
-        - "80:80"
-        - "443:443"
+      - "80:80"
+      - "443:443"
     links:
       - php:php
 

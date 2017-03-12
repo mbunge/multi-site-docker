@@ -1,18 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
-vendor/
-node_modules/
-npm-debug.log
-bootstrap/compiled.php
-app/storage/
-sites/blah/public/storage
-sites/blah/public/hot
-storage/*.key
-.env.*.php
-.env.php
-.env
-Homestead.yaml
-Homestead.json
-.rocketeer/
-
-
-#    - ./machine/mysql/cnf:/etc/mysql/conf.d
+/sites/*
+!/sites/databasetest/*
+!/sites/localhost/*
