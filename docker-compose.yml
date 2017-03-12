@@ -1,0 +1,52 @@
+version: "2.1"
+
+services:
+  start_dependencies:
+      image: dadarek/wait-for-dependencies
+      depends_on:
+        - database
+        - php
+        - nginx
+      command: database:3306 php:9000 nginx:80
+  nginx:
+    image: prooph/nginx:www
+    ports:
+        - "80:80"
+        - "443:443"
+    links:
+      - php:php
+
+    depends_on:
+      - database
+      - php
+      - dataphp
+    volumes:
+      - ./machine/nginx/sites-enabled:/etc/nginx/sites-enabled
+    volumes_from:
+      - dataphp
+
+  php:
+    image: prooph/php:5.6-fpm-xdebug
+    depends_on:
+      - database
+    links:
+      - database:database
+    volumes_from:
+      - dataphp
+
+  dataphp:
+    image: debian:jessie
+    volumes:
+      - ./sites:/var/www
+
+  database:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./machine/mysql/databases:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=dev
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+      - MYSQL_DATABASE=agantty_app
