@@ -1,25 +1,25 @@
 # Multi-site docker
 
-In some cases you or your team don't want to use many docker containers while development. Multisite docker
+In some cases you or your team don't want to use many docker containers while development.
 
 ## Getting started
 
-Checkout this repository
+Checkout this repository:
 
 ```bash
-git clone https://github.com/mbunge/multi-site-docker.git
+$ git clone https://github.com/mbunge/multi-site-docker.git
 ``` 
 
-Up and running
+Up and running:
 
 ```bash
-docker-compose up -d engage
+$ docker-compose up -d engage
 ```
 
-And stop it
+And stop it:
 
 ```bash
-docker-compose down
+$ docker-compose down
 ```
 
 ## Features
@@ -36,16 +36,19 @@ Designed for multi-site development.
 
 Change path to your projects in `docker-compose.yml` on line 40. Replace `- ./sites:/var/www` with `-../your-path:/var/www` 
 
-### Change PHP-Version
+### Change PHP version
 
-Go to docker-compose.yml and change `image` with your desired php-image. We prefer php fpm xdebug images provided by 
-prooph for development.
+Go to `docker-compose.yml` and change `image` with your desired php-image. We prefer php-fpm-xdebug images provided by 
+[prooph](https://github.com/prooph/docker-files) for development.
  
 ### Add a new site
 
-Go to `sites/` and add a new folder `mkdir -P sites/my-awesome-project/public`. `public/` is the place for your 
-`index.php`. Keep your host file in mind. The sites folder `my-awesome-project` is mapped to domain. You need to add 
-`my-awesome-project` to your hosts and your project will be available via `http://my-awesome-project`.
+Go to `sites/` and add a new folder, for example:
+```sh
+$ mkdir -P sites/my-awesome-project/public
+```
+
+`public/` is the place for your `index.php`. Keep your host file in mind. The sites folder `my-awesome-project` is mapped to domain. You need to add `my-awesome-project` to your hosts and your project will be available via `http://my-awesome-project`.
 
 ### Add an additional nginx conf
 
@@ -56,7 +59,7 @@ Go to `machine/nginx/sites-enabled`, copy `site.conf.example` and write your cus
 #### From host
 
 If you use tools like SQuirreL, DataGrip, etc. you may want to connect to from host. The host is 127.0.0.1 by default. 
-Username, password an port are the same as configured in `docker-compose.yml`.
+Username, password and port are the same as configured in `docker-compose.yml`.
   
 #### From container
 
@@ -66,7 +69,7 @@ and you are connected.
 ```php
 <?php
 
-$db = new PDO(
+$dbh = new PDO(
     'mysql:host=database;port=3306;dbname=agantty_app;charset=UTF8;',
     'root',
     'dev', 
@@ -74,6 +77,7 @@ $db = new PDO(
         PDO::ATTR_PERSISTENT=>true
     ]
 );
+
 var_dump($db->query('SHOW TABLES')->fetchAll());
 
 ```
@@ -81,39 +85,40 @@ var_dump($db->query('SHOW TABLES')->fetchAll());
 ### Connect to services
 
 #### Nginx
-
-`docker-compose exec nginx bash`
-
+```bash
+$ docker-compose exec nginx bash
+```
 #### PHP
-
-`docker-compose exec php bash`
-
+```bash
+$ docker-compose exec php bash
+```
 #### MySQL
-
-`docker-compose exec database bash`
-
+```bash
+$ docker-compose exec database bash
+```
 #### Data
+```bash
+$ docker-compose exec dataphp bash
+```
 
-`docker-compose exec dataphp bash`
-
-### Execute composer and other cli tools
+### Execute composer and other CLI tools
 
 #### Composer
 
-For composer we recomment this [awesome docker container](https://hub.docker.com/r/prooph/composer/) which is executing composer in your desired PHP-Version.
+For composer we recomment this [awesome docker container](https://hub.docker.com/r/prooph/composer/) which is executing composer in your desired PHP version.
 
 #### Artisan and friends
 
-This is very easy. Execute your commands from following pattern
+This is very easy. Execute your commands from following pattern:
 
-```
-docker-compose exec php php [param1] [param2] [paramN]
+```bash
+$ docker-compose exec php php [param1] [param2] [paramN]
 ```
 
-For example migrate database with artisan 
+For example migrate database with artisan:
 
-```
-docker-compose exec php php my-awesome-project/artisan migrate
+```bash
+$ docker-compose exec php php my-awesome-project/artisan migrate
 ```
 
 ## Change log
