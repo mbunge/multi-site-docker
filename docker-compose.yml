@@ -1,7 +1,7 @@
 version: "2.1"
 
 services:
-  start_dependencies:
+  engage:
     image: dadarek/wait-for-dependencies
     depends_on:
       - database
