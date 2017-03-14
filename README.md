@@ -1,22 +1,46 @@
-# Multi-site docker
+# Engage - Multi-site docker
 
 In some cases you or your team don't want to use many docker containers while development. Multisite docker
 
 ## Getting started
 
-Checkout this repository
+Checkout this repository. 
 
 ```bash
 git clone https://github.com/mbunge/multi-site-docker.git
 ``` 
 
-Up and running
+Copy .env.example and and name it .env file in the same directory as docker-compose.yml.
+
+```bash
+cp .env.example .env
+```
+
+Test config before start
+
+```bash
+docker-compose config
+```
+
+Create and start all containers
 
 ```bash
 docker-compose up -d engage
 ```
 
-And stop it
+Stop all containers
+
+```bash
+docker-compose stop
+```
+
+Stop all containers
+
+```bash
+docker-compose start
+```
+
+Stop and remove all containers
 
 ```bash
 docker-compose down
@@ -25,8 +49,8 @@ docker-compose down
 ## Features
 
 - Nginx
-- PHP (FPM)
-- MySQL
+- PHP (FPM) 5.6, 7.0, 7.1
+- MySQL 5.5, 5.6, 5.7, 8.0
 
 Designed for multi-site development. 
 
@@ -34,22 +58,56 @@ Designed for multi-site development.
 
 ### Change location of your projects
 
-Change path to your projects in `docker-compose.yml` on line 40. Replace `- ./sites:/var/www` with `-../your-path:/var/www` 
+Change `SITES_FOLDER` to your projects in `.env`.
+ 
+#### Example
+
+```
+SITES_FOLDER=../
+```
 
 ### Change PHP-Version
 
-Go to docker-compose.yml and change `image` with your desired php-image. We prefer php fpm xdebug images provided by 
-prooph for development.
+Change `PHP_VERSION` in `.env` in to one of the following:
+
+ - 5.6
+ - 7.0
+ - 7.1
+
+For detailed information about used PHP-Images please the all [php-fpm-xdebug images](https://hub.docker.com/r/prooph/php/) powerd by [prooph](https://hub.docker.com/r/prooph/).
+
+### Change MySQL Version
+
+Change `MYSQL_VERSION` in `.env` in to one of the following:
+
+ - 5.5
+ - 5.5.54
+ - 5.6
+ - 5.6.35
+ - 5.7
+ - 5.7.17 (aliases 5 and latest)
+ - 8.0 (aliases 8.0.0 and 8)
  
+Please keep in mind, changing the version could corrupt the databases or MySQL is not able to use databases.
+
+### Change additional MySQL data
+
+You could also change defaults for you MySQL instance in `.env` with all `MYSQL_*` variables like the default database `MYSQL_DATABASE`.
+
+### Extend `docker-compose.yml`
+ 
+In some cases you need to adjust default configurations, like ports or something else. Instead of change values in 
+`docker-compose.yml`, add `docker-compose.overwrite.yml` which is overwriting values in default config.
+
 ### Add a new site
 
 Go to `sites/` and add a new folder `mkdir -P sites/my-awesome-project/public`. `public/` is the place for your 
-`index.php`. Keep your host file in mind. The sites folder `my-awesome-project` is mapped to domain. You need to add 
+`index.php` and all other accessible files. The sites folder `my-awesome-project` is mapped to domain. You need to add 
 `my-awesome-project` to your hosts and your project will be available via `http://my-awesome-project`.
 
 ### Add an additional nginx conf
 
-Go to `machine/nginx/sites-enabled`, copy `site.conf.example` and write your custom config
+Go to `machine/nginx/sites-enabled`, copy `site.conf.example` and set up your custom config
 
 ### Connect to MySQL
 
