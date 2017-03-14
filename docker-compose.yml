@@ -26,7 +26,7 @@ services:
       - dataphp
 
   php:
-    image: prooph/php:5.6-fpm-xdebug
+    image: "prooph/php:${PHP_VERSION}-fpm-xdebug"
     depends_on:
       - database
     links:
@@ -35,9 +35,10 @@ services:
       - dataphp
 
   dataphp:
-    image: debian:jessie
+    image: alpine:latest
     volumes:
-      - ./sites:/var/www
+      - "${SITES_FOLDER}:/var/www"
+    command: /bin/true
 
   database:
     image: mysql
@@ -46,7 +47,8 @@ services:
     volumes:
       - ./machine/mysql/databases:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=dev
-      - MYSQL_USER=dev
-      - MYSQL_PASSWORD=dev
-      - MYSQL_DATABASE=agantty_app
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}

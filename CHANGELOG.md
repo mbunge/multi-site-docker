@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.2
+
+### Added
+
+ - Provide environment files to provide better customization support
+
+### Altered
+
+ - Adjust php test files
+ - add `alpine:latest` as default data container for a smaller footprint
+
 ## 1.0.1
 
 ### Fix
