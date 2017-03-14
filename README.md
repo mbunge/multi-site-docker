@@ -10,37 +10,37 @@ Checkout this repository:
 $ git clone https://github.com/mbunge/multi-site-docker.git
 ``` 
 
-Copy .env.example and and name it .env file in the same directory as docker-compose.yml.
+Copy .env.example and and name it .env file in the same directory as docker-compose.yml:
 
 ```bash
 cp .env.example .env
 ```
 
-Test config before start
+Test config before start:
 
 ```bash
 docker-compose config
 ```
 
-Create and start all containers
+Create and start all containers:
 
 ```bash
 $ docker-compose up -d engage
 ```
 
-Stop all containers
+Stop it:
 
 ```bash
 docker-compose stop
 ```
 
-Stop all containers
+Start it:
 
 ```bash
 docker-compose start
 ```
 
-Stop and remove all containers
+Stop and remove it:
 
 ```bash
 $ docker-compose down
