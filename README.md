@@ -54,7 +54,7 @@ docker-compose down
 
 Designed for multi-site development. 
 
-## How to's
+## Project data
 
 ### Change location of your projects
 
@@ -66,6 +66,14 @@ Change `SITES_FOLDER` to your projects in `.env`.
 SITES_FOLDER=../
 ```
 
+### Add a new site
+
+Go to `sites/` and add a new folder `mkdir -P sites/my-awesome-project/public`. `public/` is the place for your 
+`index.php` and all other accessible files. The sites folder `my-awesome-project` is mapped to domain. You need to add 
+`my-awesome-project` to your hosts and your project will be available via `http://my-awesome-project`.
+
+## PHP
+
 ### Change PHP-Version
 
 Change `PHP_VERSION` in `.env` in to one of the following:
@@ -74,7 +82,41 @@ Change `PHP_VERSION` in `.env` in to one of the following:
  - 7.0
  - 7.1
 
-For detailed information about used PHP-Images please the all [php-fpm-xdebug images](https://hub.docker.com/r/prooph/php/) powerd by [prooph](https://hub.docker.com/r/prooph/).
+For detailed information about used PHP-Images please refer to [php-fpm-xdebug images](https://github.com/alterway/docker-php/blob/master/doc-php-fpm.md).
+
+### Customize PHP-Version
+
+We provide more customization feautures since version 1.0.3.
+
+Following options are configured in a separate *.env file configured with `PHP_ENV_FILE` in `.env`
+
+#### Extend php.ini
+
+The php configuration is dynamic. Just add environment variable with prefix `PHP__`.
+
+##### Example
+
+Following config overwrites `display_errors` and `date.timezone` and adds xdebug settings.
+
+```
+PHP__display_errors=On
+PHP__date.timezone=Europe/Berlin
+PHP__xdebug.remote_enable = 1
+```
+
+#### Enable additional PHP modules
+
+The PHP Extensions are load on start. Just add environment variable `PHP_php5enmod` with list of your extensions.
+
+##### Example
+
+Following config adds mysql and pdo_mysql which is required by wordpress, laravel and many other tools.
+
+```
+PHP_php5enmod=mysql pdo_mysql xdebug
+```
+
+## MySQL
 
 ### Change MySQL Version
 
@@ -92,22 +134,21 @@ Please keep in mind, changing the version could corrupt the databases or MySQL i
 
 ### Change additional MySQL data
 
-You could also change defaults for you MySQL instance in `.env` with all `MYSQL_*` variables like the default database `MYSQL_DATABASE`.
+You could also change defaults for your MySQL instance. Just configure `MYSQL_ENV_FILE` in `.env` and add variables prefixed with `MYSQL_*` like the default database `MYSQL_DATABASE`.
 
-### Extend `docker-compose.yml`
- 
-In some cases you need to adjust default configurations, like ports or something else. Instead of change values in 
-`docker-compose.yml`, add `docker-compose.overwrite.yml` which is overwriting values in default config.
+A detailed list of opetions can be found on [MySQL-Docker](https://hub.docker.com/_/mysql/) under _Environment Variables_.
 
-### Add a new site
+### Extend my.cnf
 
-Go to `sites/` and add a new folder `mkdir -P sites/my-awesome-project/public`. `public/` is the place for your 
-`index.php` and all other accessible files. The sites folder `my-awesome-project` is mapped to domain. You need to add 
-`my-awesome-project` to your hosts and your project will be available via `http://my-awesome-project`.
+You may want to modify some mysql settings. Just create a new `*.cnf` under `machine/mysql/cnf` and setup your custom settings.
+
+## nginx
 
 ### Add an additional nginx conf
 
 Go to `machine/nginx/sites-enabled`, copy `site.conf.example` and set up your custom config
+
+## How to
 
 ### Connect to MySQL
 
@@ -125,7 +166,7 @@ and you are connected.
 <?php
 
 $db = new PDO(
-    'mysql:host=database;port=3306;dbname=agantty_app;charset=UTF8;',
+    'mysql:host=database;port=3306;dbname=engage_example;charset=UTF8;',
     'root',
     'dev', 
     [
@@ -135,6 +176,11 @@ $db = new PDO(
 var_dump($db->query('SHOW TABLES')->fetchAll());
 
 ```
+
+### Extend `docker-compose.yml`
+ 
+In some cases you need to adjust default configurations, like ports or something else. Instead of change values in 
+`docker-compose.yml`, add `docker-compose.overwrite.yml` which is overwriting values in default config.
 
 ### Connect to services
 

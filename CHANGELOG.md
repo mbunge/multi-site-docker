@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3
+
+More configuration options for PHP and MySQL
+
+### Altered
+
+ - Exchange PHP Image for advanced customization of php.ini, php_fpm.conf and php modules inside docker-compose.yml
+ - Extend mysql cnf and remove `ONLY_FULL_GROUP_BY, ZERO_IN_DATE, ZERO_DATE` options for compatibility of Laravel 4 and Wordpress
+
 ## 1.0.2
 
 ### Added

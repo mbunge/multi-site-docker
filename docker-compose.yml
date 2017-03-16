@@ -26,13 +26,14 @@ services:
       - dataphp
 
   php:
-    image: "prooph/php:${PHP_VERSION}-fpm-xdebug"
+    env_file: "${PHP_ENV_FILE}"
+    image: "alterway/php:${PHP_VERSION}-fpm"
     depends_on:
-      - database
+     - database
     links:
-      - database:database
+     - database:database
     volumes_from:
-      - dataphp
+     - dataphp
 
   dataphp:
     image: alpine:latest
@@ -41,14 +42,10 @@ services:
     command: /bin/true
 
   database:
-    image: mysql
+    image: "mysql:${MYSQL_VERSION}"
+    env_file: "${MYSQL_ENV_FILE}"
     ports:
       - "3306:3306"
     volumes:
       - ./machine/mysql/databases:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+      - ./machine/mysql/cnf:/etc/mysql/conf.d
