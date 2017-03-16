@@ -166,7 +166,7 @@ and you are connected.
 <?php
 
 $db = new PDO(
-    'mysql:host=database;port=3306;dbname=engage_example;charset=UTF8;',
+    'mysql:host=database;port=3306;dbname=engage_project;charset=UTF8;',
     'root',
     'dev', 
     [
