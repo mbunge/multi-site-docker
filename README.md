@@ -1,49 +1,49 @@
 # Engage - Multi-site docker
 
-In some cases you or your team don't want to use many docker containers while development. Multisite docker
+In some cases you or your team don't want to use many docker containers while development.
 
 ## Getting started
 
-Checkout this repository. 
+Checkout this repository:
 
 ```bash
-git clone https://github.com/mbunge/multi-site-docker.git
+$ git clone https://github.com/mbunge/multi-site-docker.git
 ``` 
 
-Copy .env.example and and name it .env file in the same directory as docker-compose.yml.
+Copy .env.example and and name it .env file in the same directory as docker-compose.yml:
 
 ```bash
 cp .env.example .env
 ```
 
-Test config before start
+Test config before start:
 
 ```bash
 docker-compose config
 ```
 
-Create and start all containers
+Create and start all containers:
 
 ```bash
-docker-compose up -d engage
+$ docker-compose up -d engage
 ```
 
-Stop all containers
+Stop it:
 
 ```bash
-docker-compose stop
+$ docker-compose stop
 ```
 
-Stop all containers
+Start it:
 
 ```bash
-docker-compose start
+$ docker-compose start
 ```
 
-Stop and remove all containers
+Stop and remove it:
 
 ```bash
-docker-compose down
+$ docker-compose down
 ```
 
 ## Features
@@ -74,7 +74,7 @@ Go to `sites/` and add a new folder `mkdir -P sites/my-awesome-project/public`. 
 
 ## PHP
 
-### Change PHP-Version
+### Change PHP version
 
 Change `PHP_VERSION` in `.env` in to one of the following:
 
@@ -173,6 +173,7 @@ $db = new PDO(
         PDO::ATTR_PERSISTENT=>true
     ]
 );
+
 var_dump($db->query('SHOW TABLES')->fetchAll());
 
 ```
@@ -185,39 +186,40 @@ In some cases you need to adjust default configurations, like ports or something
 ### Connect to services
 
 #### Nginx
-
-`docker-compose exec nginx bash`
-
+```bash
+$ docker-compose exec nginx bash
+```
 #### PHP
-
-`docker-compose exec php bash`
-
+```bash
+$ docker-compose exec php bash
+```
 #### MySQL
-
-`docker-compose exec database bash`
-
+```bash
+$ docker-compose exec database bash
+```
 #### Data
+```bash
+$ docker-compose exec dataphp bash
+```
 
-`docker-compose exec dataphp bash`
-
-### Execute composer and other cli tools
+### Execute composer and other CLI tools
 
 #### Composer
 
-For composer we recomment this [awesome docker container](https://hub.docker.com/r/prooph/composer/) which is executing composer in your desired PHP-Version.
+For composer we recomment this [awesome docker container](https://hub.docker.com/r/prooph/composer/) which is executing composer in your desired PHP version.
 
 #### Artisan and friends
 
-This is very easy. Execute your commands from following pattern
+This is very easy. Execute your commands from following pattern:
 
-```
-docker-compose exec php php [param1] [param2] [paramN]
+```bash
+$ docker-compose exec php php [param1] [param2] [paramN]
 ```
 
-For example migrate database with artisan 
+For example migrate database with artisan:
 
-```
-docker-compose exec php php my-awesome-project/artisan migrate
+```bash
+$ docker-compose exec php php my-awesome-project/artisan migrate
 ```
 
 ## Change log
