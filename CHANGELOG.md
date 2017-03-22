@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.4
+
+PHP-Unitsupport with MySQL in mind
+
+### Added
+
+ - Add PHP-Unit build
+
 ## 1.0.3
 
 More configuration options for PHP and MySQL

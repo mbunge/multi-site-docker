@@ -208,6 +208,10 @@ $ docker-compose exec dataphp bash
 
 For composer we recomment this [awesome docker container](https://hub.docker.com/r/prooph/composer/) which is executing composer in your desired PHP version.
 
+```bash
+$ docker run --rm -it --volume ${PWD}:/app prooph/composer:7.0 dumpautoload
+```
+
 #### Artisan and friends
 
 This is very easy. Execute your commands from following pattern:

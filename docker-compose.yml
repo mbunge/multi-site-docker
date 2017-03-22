@@ -6,6 +6,7 @@ services:
     depends_on:
       - database
       - php
+      - phpunit
       - nginx
     command: database:3306 php:9000 nginx:80
   nginx:
@@ -35,10 +36,20 @@ services:
     volumes_from:
      - dataphp
 
+  phpunit:
+    image: binarydata/phpunit
+    depends_on:
+     - database
+    links:
+     - database:database
+    volumes_from:
+     - dataphp
+
   dataphp:
     image: alpine:latest
     volumes:
       - "${SITES_FOLDER}:/var/www"
+      - "${SSH_FOLDER}:/root/.ssh"
     command: /bin/true
 
   database:
