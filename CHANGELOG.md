@@ -5,6 +5,14 @@
 ### Added
 
  - Provide helpers for Composer and docker usage
+ 
+### Altered
+ 
+ - lesser strict MySQL sql-mode
+
+### Removed
+
+ - Remove xdbug by default for better performance
 
 ## 1.0.4
 
