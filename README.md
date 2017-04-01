@@ -13,13 +13,13 @@ $ git clone https://github.com/mbunge/multi-site-docker.git
 Copy .env.example and and name it .env file in the same directory as docker-compose.yml:
 
 ```bash
-cp .env.example .env
+$ cp .env.example .env
 ```
 
 Test config before start:
 
 ```bash
-docker-compose config
+$ docker-compose config
 ```
 
 Create and start all containers:
@@ -45,6 +45,23 @@ Stop and remove it:
 ```bash
 $ docker-compose down
 ```
+
+## Convinient Helpers
+
+Instead of commands above you could also user command helpers for docker-compose and composer.
+
+### Prepared for MacOS, Linux and Windows
+
+Just call composer with 
+
+```
+$ ./bin/composer <relative/path/to/app/on/machine> <composer command>
+```
+
+and docker-composer with
+
+```$ ./bin/engage <review commands in file pls...>``` 
+
 
 ## Features
 

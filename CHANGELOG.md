@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5
+
+### Added
+
+ - Provide helpers for Composer and docker usage
+
 ## 1.0.4
 
 PHP-Unitsupport with MySQL in mind

@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+#!/usr/bin/env bash
+
+SECOND=$2
+
+### commands
+function start
+{
+  echo "start containers"
+  docker-compose up -d engage
+}
+
+function stop
+{
+  echo "stop containers"
+  docker-compose down
+}
+
+function restart
+{
+    stop
+    start
+}
+
+function resume
+{
+  echo "resume containers"
+  docker-compose start
+}
+
+function destroy
+{
+  stop
+  docker rmi -f $(docker images -q)
+
+}
+
+function reload
+{
+  echo "reload containers"
+  docker-compose restart
+}
+
+function suspend
+{
+  echo "suspend containers"
+  docker-compose stop
+}
+
+### usage
+function usage
+{
+  echo "No command called. end doing nothing"
+}
+
+### MAIN
+while [ "$1" != "" ]; do
+    case $1 in
+
+        -s | --start | start )          shift
+                                start
+                                ;;
+        -c | --stop | stop )         shift
+                                stop
+                                ;;
+        -r | --restart | restart )          shift
+                                restart
+                                ;;
+        -w | --resume | resume )         shift
+                                resume
+                                ;;
+        -n | --suspen | suspend )               shift
+                                suspend
+                                ;;
+        -l | --reload | reload )         shift
+                                reload
+                                ;;
+        -d | --destory | destroy )         shift
+                                destroy
+                                ;;
+#        -h | --help )           usage
+#                                exit
+#                                ;;
+        * )                     usage
+                                exit
+    esac
+    shift
+done
+
+exit
