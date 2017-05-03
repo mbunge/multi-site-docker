@@ -48,26 +48,42 @@ $ docker-compose down
 
 ## Convinient Helpers
 
-Instead of commands above you could also user command helpers for docker-compose and composer.
+Instead of commands above you could also user command helpers for docker-compose.
 
 ### Prepared for MacOS, Linux and Windows
 
-Just call composer with 
+Just call docker-composer with
 
 ```
-$ ./bin/composer <relative/path/to/app/on/machine> <composer command>
+$ ./bin/engage <review commands in file pls...>
+``` 
+
+## Composer
+
+Connect to php container
+
+```
+$ docker-compose exec php bash
 ```
 
-and docker-composer with
+and select your project
 
-```$ ./bin/engage <review commands in file pls...>``` 
+```
+$ cd /var/www/my/project
+```
 
+and run any composer command
+
+```
+$ composer install
+```
 
 ## Features
 
 - Nginx
 - PHP (FPM) 5.6, 7.0, 7.1
 - MySQL 5.5, 5.6, 5.7, 8.0
+- Memcached
 
 Designed for multi-site development. 
 

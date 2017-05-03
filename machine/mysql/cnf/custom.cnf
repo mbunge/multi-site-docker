@@ -1,2 +1,21 @@
+[mysql]
+skip-name-resolve
+
 [mysqld]
-sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+sql-mode=""
+#key_buffer = 16M
+#max_allowed_packets = 16M
+thread_stack = 192K
+thread_cache_size = 88
+
+query_cache_type = 1
+query_cache_limit = 512K
+query_cache_min_res_unit = 2k
+query_cache_size = 128M
+
+tmp_table_size= 48M
+max_heap_table_size= 48M
+
+#innodb-buffer-pool-size = 368M
+#innodb_buffer_pool_instances = 1

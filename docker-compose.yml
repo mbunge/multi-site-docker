@@ -8,7 +8,8 @@ services:
       - php
       - phpunit
       - nginx
-    command: database:3306 php:9000 nginx:80
+      - cache
+    command: database:3306 php:9000 nginx:80 cache:11211
   nginx:
     image: prooph/nginx:www
     ports:
@@ -50,7 +51,7 @@ services:
     volumes:
       - "${SITES_FOLDER}:/var/www"
       - "${SSH_FOLDER}:/root/.ssh"
-    command: /bin/true
+    command: /bin/sh -c "/bin/true && chmod -R 777 /var/www"
 
   database:
     image: "mysql:${MYSQL_VERSION}"
@@ -60,3 +61,7 @@ services:
     volumes:
       - ./machine/mysql/databases:/var/lib/mysql
       - ./machine/mysql/cnf:/etc/mysql/conf.d
+  cache:
+    image: memcached
+    ports:
+      - "11211:11211"
