@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+// var server = require('http').createServer();
+// var io = require('socket.io')(server);
+// var redis = require('redis');
+// var sub = redis.createClient({
+//     'host': 'redis'
+// });
+//
+// sub.on("message", function (channel, message) {
+//     io.emit(channel, message);
+// });
+//
+// sub.subscribe('*');
+//
+// server.listen(3030);
+
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var redis = require('redis');
+var sub = redis.createClient({host: 'redis', port: 6379});
+var pub = redis.createClient({host: 'redis', port: 6379});
+
+server.listen(3000, function () {
+    console.log('start listening');
+});
+
+app.disable('x-powered-by');
+
+app.use(function (req, res, next)
+    {
+        console.log('Setup middleware');
+        res.setHeader('Access-Control-Allow-Origin', 'http://agantty-microservice-core');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        next();
+    }
+);
+
+function doInit(pub, sub, io) {
+    // pub.on('ready', function(){
+    //     sub.on('ready', function(){
+    doChat(pub, sub, io);
+    //     })
+    // });
+}
+
+/**
+ *
+ */
+function doChat(pub, sub, io) {
+    sub.subscribe('feedback.incoming');
+
+    sub.on('subscribe', function(){
+        console.log('subscribe to channel');
+    });
+
+    sub.on("message", function (channel, message) {
+        io.emit(channel, message);
+        console.log('message: ', channel, message);
+        // pub.publish('logging', channel + ' - ' + msg);
+    });
+
+    io.on('connection', function (socket) {
+        socket.on('feedback.incoming', function (msg) {
+            pub.publish('feedback.incoming', msg);
+            console.log('publish message: ', msg);
+        });
+    });
+}
+
+doInit(pub, sub, io);

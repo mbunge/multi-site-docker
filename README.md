@@ -55,8 +55,68 @@ Instead of commands above you could also user command helpers for docker-compose
 Just call docker-composer with
 
 ```
-$ ./bin/engage <review commands in file pls...>
+$ ./bin/engage <command>
 ``` 
+
+Following commands aliasing 
+
+#### start
+
+start containers and execute
+
+```
+$ docker-compose up -d engage
+```
+
+#### stop
+
+stop containers and execute
+
+```
+$ docker-compose down
+```
+
+#### restart
+
+Calls `stop` and `start`
+
+#### resume
+
+resume containers and execute
+
+```
+$ docker-compose start
+```
+
+#### destroy
+
+remove all containers and execute on Linux / Mac OS
+
+```
+$ docker rmi -f $(docker images -q)
+```
+
+On Windows
+
+```
+$ FOR /F "usebackq tokens=*" %%a IN (`docker images -q`) DO echo %%a
+```
+
+#### reload
+
+reload containers and executes
+
+```
+$ docker-compose restart
+```
+
+#### suspend
+
+suspend containers and executes
+
+```
+$ docker-compose stop
+```
 
 ## Composer
 
@@ -84,6 +144,7 @@ $ composer install
 - PHP (FPM) 5.6, 7.0, 7.1
 - MySQL 5.5, 5.6, 5.7, 8.0
 - Memcached
+- Redis
 
 Designed for multi-site development. 
 

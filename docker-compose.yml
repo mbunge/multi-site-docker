@@ -5,48 +5,71 @@ services:
     image: dadarek/wait-for-dependencies
     depends_on:
       - database
+      - redis
       - php
       - phpunit
       - nginx
       - cache
-    command: database:3306 php:9000 nginx:80 cache:11211
+    command: database:3306 redis:6379 php:9000 socketio:3030 nginx:80 cache:11211
   nginx:
     image: prooph/nginx:www
     ports:
       - "80:80"
       - "443:443"
+      - "3030:3030"
     links:
       - php:php
+      - socketio:socketio
 
     depends_on:
       - database
+      - redis
       - php
-      - dataphp
+      - socketio
+      - data
     volumes:
       - ./machine/nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./machine/nginx/log:/var/log/nginx
     volumes_from:
-      - dataphp
+      - data
+      - socketio
 
   php:
     env_file: "${PHP_ENV_FILE}"
     image: "alterway/php:${PHP_VERSION}-fpm"
     depends_on:
      - database
+     - redis
     links:
      - database:database
     volumes_from:
-     - dataphp
+     - data
+
+  socketio:
+    image: node:7
+    ports:
+     - "3000:3000"
+    depends_on:
+     - redis
+    links:
+     - redis:redis
+    volumes:
+     - "./machine/socketio:/src"
+    command: bash -c "chmod -R 777 /src && cd /src && rm -rf node_modules && npm install nodemon -g && npm install && nodemon -L server"
+
 
   phpunit:
     image: binarydata/phpunit
     depends_on:
      - database
+     - redis
     links:
      - database:database
+     - redis:redis
     volumes_from:
-     - dataphp
+     - data
 
-  dataphp:
+  data:
     image: alpine:latest
     volumes:
       - "${SITES_FOLDER}:/var/www"
@@ -65,3 +88,7 @@ services:
     image: memcached
     ports:
       - "11211:11211"
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"

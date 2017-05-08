@@ -1,0 +1,14 @@
+{
+  "name": "socketio",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon -L server"
+  },
+  "dependencies": {
+    "socket.io": "~1.7",
+    "socket.io-client": "~1.7",
+    "redis": "~2",
+    "express": "~4"
+  }
+}

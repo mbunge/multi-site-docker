@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+ - Provide event-driven websockets with socket io
+ - Add redis
+ - Initialize Microservice approach
+ 
+### Altered
+ 
+ - lesser strict MySQL sql-mode
+
+### Removed
+
+ - Remove xdebug by default for better performance
+
 ## 1.0.5
 
 ### Added
@@ -12,7 +28,7 @@
 
 ### Removed
 
- - Remove xdbug by default for better performance
+ - Remove xdebug by default for better performance
 
 ## 1.0.4
 

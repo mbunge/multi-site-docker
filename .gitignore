@@ -1,3 +1,5 @@
 .idea
 .env
-githubAuthToken
+*.log
+node_modules
+npm-debug
